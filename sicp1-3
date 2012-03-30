@@ -1,0 +1,10 @@
+(define square-larger (x y z)
+    (cond
+         ((and (>= x y) (> z y)) sum-of-squares x z)
+         ((and (>= x y) (< z y)) sum-of-squares x y)
+         ((and (>= y x) (> z x)) sum-of-squares y z)
+         ((and (>= y x) (< z x)) sum-of-squares x y)
+         ((and (>= z x) (> y x)) sum-of-squares z y)
+         ((and (>= z x) (< y x)) sum-of-squares z x)
+
+

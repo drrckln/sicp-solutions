@@ -1,0 +1,7 @@
+Describe the behavior of:
+
+(define (a-plus-abs-b a b)
+    ((if (> b 0) + -) a b))
+
+
+Adds a to the absolute value of b
