@@ -8,9 +8,11 @@ Well, good-enough? is:
 
 Since the tolerance is arbitrarily set at 0.001, and very small numbers' square roots will also be very small, the accuracy of the good-enough? test decreases the smaller the number you're trying to square root.
 
-An easy example is (sqrt 0.000009), where the answer should be 0.003. This means good-enough? will accept any square root whose square is between 0.002 and 0.004, which is kind of a horrible tolerance. 
+An easy example is (sqrt 0.000009), where the answer should be 0.003 [you are actually returned 0.03134584760656851]. This means good-enough? will accept any square root whose square is between 0.002 and 0.004, which is kind of a horrible tolerance. 
 
-As for very large numbers, limited precision is a problem. I guess if the number is really large, then limited precision limits how close the answer can get to the true answer, and instead of converging will then just oscillate around it. The two attractors, both squared, will not be close to 0.001 away from the radicand. The computation runs forever.
+Also, if the radicand is small and the square of the guess is small, the absolute value will easily be less than 0.001.
+
+As for very large numbers, limited precision is a problem. I guess if the number is really large, then limited precision limits how close the answer can get to the true answer, and instead of converging will then just oscillate around it. The two attractors, individually squared, will not be close to 0.001 away from the radicand. The computation runs forever.
 
 I tried (sqrt 999999999999999999999999999999999999999999999999999999999999999999999999999999), which ran for a few minutes before I broke out of it. DrRacket shows a vector from 
 
@@ -25,5 +27,27 @@ which is some evidence that this is the case, since the computation should be lo
 
 
 
+My new square-root procedure is essentially the same:
 
-split out improve into improve and improve-iter and compare the guess and improve guess. Then do like, (/ (- improve-guess guess) guess) and make the fraction compared to small.
+(define (sqrt-iter guess x)
+  (if (good-enough? guess (improve guess x))
+      guess
+      (sqrt-iter (improve guess x)
+                 x)))
+
+(define (good-enough? guess improved-guess)
+  (< (abs (/ (- improved-guess guess) guess)) 0.0000000000000000001))
+
+
+This appears to work better for large numbers, in that you get an answer rather than an infinite loop. DrRacket likes to give output like 9.999999996742429e+16. I suppose this still has the same problem with limited precision, but will at least terminate and give an answer.
+
+For smaller numbers the answers are much more exact. It also seems to be faster, but I think this is an illusion.
+
+> (sqrt 0.00000000000009)
+3e-07
+
+whereas in the old version, the answer is completely off:
+
+> (sqrt 0.00000000000009)
+0.03125000000095906
+
