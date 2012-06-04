@@ -1,0 +1,27 @@
+The following pattern of numbers is called Pascal's triangle.
+
+[image here]
+
+The numbers at the edge of the triangle are all 1, and each number inside the triangle is the sum of the two numbers above it. Write a procedure that computes elements of Pascal's triangle by means of a recursive process.
+
+
+
+; n is which level of the triangle you're on
+(define (pascal n)
+  (cond
+     ((= n 1) '(1))
+     ((= n 2) '(1 1))
+     ((= n 3) '(1 2 1))
+     (else (pascalify (pascal (- n 1))))))
+
+; adds 1 to the beginning of the list
+; well, creates the next level of Pascal's triangle
+(define (pascalify list)
+  (cons 1 (find-mid list)))
+
+(define (find-mid list)
+  (cond
+    ((null? (cdr list))
+       '(1)) ; adds 1 to the end of the list, pretty hacky
+    (#t (cons (+ (car list) (cadr list)) (find-mid (cdr list))))))
+
