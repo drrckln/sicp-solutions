@@ -1,0 +1,7 @@
+Prove that Fib(n) is the closest integer to phi^n/5, where phi = (1 + 5)/2. Hint: Let psi  = (1 - 5)/2. Use induction and the definition of the Fibonacci numbers (see section 1.2.2) to prove that Fib(n) = (phi^n - psi^n)/5.
+
+Fib(n) = if 0, 0
+         if 1, 1
+         otherwise Fib(n - 1) + Fib(n - 2)
+
+
